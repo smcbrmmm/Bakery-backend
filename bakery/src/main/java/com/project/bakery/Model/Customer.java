@@ -1,5 +1,6 @@
 package com.project.bakery.Model;
 
+
 public class Customer {
     private int id;
     private String name;
