@@ -1,12 +1,9 @@
-package com.project.bakery.Controller;
+package com.project.bakery.controller;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.project.bakery.Model.User;
-import com.project.bakery.Service.UserService;
-import org.apache.tomcat.util.json.JSONParser;
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import com.project.bakery.entity.User;
+import com.project.bakery.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

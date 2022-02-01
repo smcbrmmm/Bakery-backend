@@ -1,7 +1,7 @@
-package com.project.bakery.Service;
+package com.project.bakery.service;
 
-import com.project.bakery.Model.User;
-import com.project.bakery.Repository.UserRepository;
+import com.project.bakery.entity.User;
+import com.project.bakery.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;

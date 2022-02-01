@@ -1,9 +1,8 @@
-package com.project.bakery.Controller;
+package com.project.bakery.controller;
 
 
-import com.project.bakery.Model.Product;
-import com.project.bakery.Model.User;
-import com.project.bakery.Service.ProductService;
+import com.project.bakery.entity.Product;
+import com.project.bakery.service.ProductService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

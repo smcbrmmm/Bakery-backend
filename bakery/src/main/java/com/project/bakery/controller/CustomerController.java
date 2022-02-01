@@ -1,15 +1,10 @@
-package com.project.bakery.Controller;
+package com.project.bakery.controller;
 
-import com.project.bakery.Model.Customer;
-import com.project.bakery.Repository.CustomerRepository;
-import com.project.bakery.Service.CustomerService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import com.project.bakery.entity.Customer;
+import com.project.bakery.service.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController()
 @RequestMapping("/api/customer")

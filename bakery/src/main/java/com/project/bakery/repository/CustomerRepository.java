@@ -1,6 +1,6 @@
-package com.project.bakery.Repository;
+package com.project.bakery.repository;
 
-import com.project.bakery.Model.Customer;
+import com.project.bakery.entity.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

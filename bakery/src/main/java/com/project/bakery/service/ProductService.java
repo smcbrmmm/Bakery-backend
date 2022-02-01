@@ -1,8 +1,7 @@
-package com.project.bakery.Service;
+package com.project.bakery.service;
 
-import com.project.bakery.Model.Product;
-import com.project.bakery.Model.User;
-import com.project.bakery.Repository.ProductRepository;
+import com.project.bakery.entity.Product;
+import com.project.bakery.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

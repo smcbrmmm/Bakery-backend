@@ -1,8 +1,8 @@
-package com.project.bakery.Service;
+package com.project.bakery.service;
 
 
-import com.project.bakery.Model.Customer;
-import com.project.bakery.Repository.CustomerRepository;
+import com.project.bakery.entity.Customer;
+import com.project.bakery.repository.CustomerRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
