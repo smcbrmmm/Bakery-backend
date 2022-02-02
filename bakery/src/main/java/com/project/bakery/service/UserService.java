@@ -1,10 +1,13 @@
 package com.project.bakery.service;
 
 import com.project.bakery.entity.User;
+import com.project.bakery.exception.BaseException;
+import com.project.bakery.exception.UserException;
 import com.project.bakery.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -19,7 +22,25 @@ public class UserService {
         return repository.findAll();
     }
 
-    public void createUser(User user){
+    public void createUser(String email, String password, String name) throws BaseException {
+        if (Objects.isNull(email)) {
+            throw UserException.createEmailNull();
+        }
+
+        if (Objects.isNull(password)) {
+            throw UserException.createNameNull();
+        }
+
+        if (Objects.isNull(name)) {
+            throw UserException.createPasswordNull();
+        }
+        if (repository.existsByEmail(email)) {
+            throw UserException.createEmailDuplicated();
+        }
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setName(name);
         repository.save(user);
     }
 

@@ -33,9 +33,9 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        String query = "INSERT INTO users (email,password) VALUES (?,?);";
+        String query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);";
         Object[] data = new Object[]
-                { user.getEmail(), user.getPassword()};
+                { user.getEmail(), user.getPassword(), user.getName()};
         jdbcTemplate.update(query, data);
     }
 
@@ -53,10 +53,21 @@ public class UserRepository {
 
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
+            String name = resultSet.getString("name");
 
-            User user = new User(email, password);
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setName(name);
             return user;
         }
+    }
+
+    public boolean existsByEmail(String email){
+        String query = "SELECT * FROM users WHERE email = " + email;
+        User user =
+                jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
+        return ;
     }
 
 }
