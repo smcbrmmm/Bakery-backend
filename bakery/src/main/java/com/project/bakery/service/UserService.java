@@ -34,9 +34,9 @@ public class UserService {
         if (Objects.isNull(name)) {
             throw UserException.createPasswordNull();
         }
-        if (repository.existsByEmail(email)) {
-            throw UserException.createEmailDuplicated();
-        }
+//        if (repository.existsByEmail(email)) {
+//            throw UserException.createEmailDuplicated();
+//        }
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);

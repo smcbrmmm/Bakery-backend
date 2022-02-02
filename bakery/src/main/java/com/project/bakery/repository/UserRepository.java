@@ -63,11 +63,11 @@ public class UserRepository {
         }
     }
 
-    public boolean existsByEmail(String email){
-        String query = "SELECT * FROM users WHERE email = " + email;
-        User user =
-                jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
-        return ;
-    }
+//    public boolean existsByEmail(String email){
+//        String query = "SELECT * FROM users WHERE email = " + email;
+//        User user =
+//                jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
+//        return ;
+//    }
 
 }
