@@ -4,6 +4,7 @@ import com.project.bakery.entity.User;
 import com.project.bakery.exception.BaseException;
 import com.project.bakery.exception.UserException;
 import com.project.bakery.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.List;
@@ -12,10 +13,13 @@ import java.util.Objects;
 @Service
 public class UserService {
 
-    UserRepository repository;
+    private final UserRepository repository;
 
-    public UserService(UserRepository userRepository){
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.repository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getUsers(){
@@ -39,7 +43,7 @@ public class UserService {
 //        }
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
         repository.save(user);
     }
