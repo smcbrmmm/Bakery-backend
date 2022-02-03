@@ -39,6 +39,13 @@ public class UserRepository {
         jdbcTemplate.update(query, data);
     }
 
+    public void saveLine(User user) {
+        String query = "INSERT INTO users (email, tokenId, name) VALUES (?, ?, ?);";
+        Object[] data = new Object[]
+                { user.getEmail(), user.getTokenId(), user.getName()};
+        jdbcTemplate.update(query, data);
+    }
+
     public void deleteByEmail(String email) {
         String query = "DELETE FROM users WHERE email = " + email;
         jdbcTemplate.update(query);
@@ -54,11 +61,13 @@ public class UserRepository {
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
             String name = resultSet.getString("name");
+            String tokenId = resultSet.getString("tokenId");
 
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setName(name);
+            user.setTokenId(tokenId);
             return user;
         }
     }

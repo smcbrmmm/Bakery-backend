@@ -9,7 +9,6 @@ public class UserException extends BaseException {
         return new UserException("register.email.null");
     }
 
-    // CREATE
     public static UserException createEmailNull() {
         return new UserException("create.email.null");
     }
@@ -24,5 +23,9 @@ public class UserException extends BaseException {
 
     public static UserException createNameNull() {
         return new UserException("create.name.null");
+    }
+
+    public static UserException createTokenIdNull() {
+        return new UserException("create.tokenId.null");
     }
 }

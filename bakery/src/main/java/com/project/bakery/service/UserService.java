@@ -48,6 +48,30 @@ public class UserService {
         repository.save(user);
     }
 
+    public void createUserByLine(String email, String tokenId, String name) throws BaseException {
+        if (Objects.isNull(email)) {
+            throw UserException.createEmailNull();
+        }
+
+        if (Objects.isNull(tokenId)) {
+            throw UserException.createTokenIdNull();
+        }
+
+        if (Objects.isNull(name)) {
+            throw UserException.createPasswordNull();
+        }
+//        if (repository.existsByEmail(email)) {
+//            throw UserException.createEmailDuplicated();
+//        }
+        User user = new User();
+        user.setEmail(email);
+        user.setTokenId(tokenId);
+        user.setName(name);
+        repository.saveLine(user);
+    }
+
+
+
     private String hash(String pin) {
         String salt = BCrypt.gensalt(12);
         return BCrypt.hashpw(pin, salt);
