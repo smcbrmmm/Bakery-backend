@@ -1,18 +1,15 @@
 package com.project.bakery.controller;
 
 
-import com.project.bakery.entity.Product;
+import com.project.bakery.model.Product;
 import com.project.bakery.service.ProductService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController()
-@RequestMapping("/api/products")
+@RequestMapping("/api/product")
 public class ProductController {
 
     ProductService service;
@@ -21,9 +18,24 @@ public class ProductController {
         this.service = productService;
     }
 
-    @GetMapping("/allProducts")
+    @GetMapping("/get/all")
     public List<Product> getAllProducts(){
         return service.getProducts();
+    }
+
+    @PostMapping("/insert")
+    public Product insertProduct(@RequestBody Product product) {
+        return service.insertProduct(product);
+    }
+
+    @GetMapping("/get")
+    public Product getProduct(@RequestParam int productId) {
+        return service.getProductByProductId(productId);
+    }
+
+    @PostMapping("update")
+    public Product updateProduct(@RequestBody Product product) {
+        return service.updateProduct(product);
     }
 
 }

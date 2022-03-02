@@ -1,6 +1,6 @@
 package com.project.bakery.repository;
 
-import com.project.bakery.entity.User;
+import com.project.bakery.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,16 +33,16 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        String query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);";
+        String query = "INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?);";
         Object[] data = new Object[]
-                { user.getEmail(), user.getPassword(), user.getName()};
+                { user.getEmail(), user.getPassword(), user.getName(), "C"};
         jdbcTemplate.update(query, data);
     }
 
     public void saveLine(User user) {
-        String query = "INSERT INTO users (email, tokenId, name) VALUES (?, ?, ?);";
+        String query = "INSERT INTO users (email, tokenId, name, role) VALUES (?, ?, ?, ?);";
         Object[] data = new Object[]
-                { user.getEmail(), user.getTokenId(), user.getName()};
+                { user.getEmail(), user.getTokenId(), user.getName(), "CL"};
         jdbcTemplate.update(query, data);
     }
 
@@ -62,12 +62,14 @@ public class UserRepository {
             String password = resultSet.getString("password");
             String name = resultSet.getString("name");
             String tokenId = resultSet.getString("tokenId");
+            String role = resultSet.getString("role");
 
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setName(name);
             user.setTokenId(tokenId);
+            user.setRole(role);
             return user;
         }
     }

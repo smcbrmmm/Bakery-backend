@@ -1,4 +1,4 @@
-package com.project.bakery.entity;
+package com.project.bakery.model;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.project.bakery.service;
 
-import com.project.bakery.entity.Product;
+import com.project.bakery.model.Product;
 import com.project.bakery.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +19,15 @@ public class ProductService {
         return repository.findAll();
     }
 
+    public Product insertProduct(Product product) {
+        return repository.save(product);
+    }
+
+    public Product getProductByProductId(int productId) {
+        return repository.findByProductId(productId);
+    }
+
+    public Product updateProduct(Product product) {
+        return repository.update(product);
+    }
 }

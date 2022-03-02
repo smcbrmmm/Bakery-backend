@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/api/user/register", "/api/user/register/line").anonymous()
+                .and().authorizeRequests().antMatchers("/api/user/register", "/api/user/register/line", "/api/product/get/all", "/api/product/insert", "/api/product/get", "/api/product/update").anonymous()
                 .anyRequest().authenticated();
     }
 }

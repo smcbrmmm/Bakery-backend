@@ -1,6 +1,6 @@
 package com.project.bakery.service;
 
-import com.project.bakery.entity.User;
+import com.project.bakery.model.User;
 import com.project.bakery.exception.BaseException;
 import com.project.bakery.exception.UserException;
 import com.project.bakery.repository.UserRepository;
