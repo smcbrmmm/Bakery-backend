@@ -9,7 +9,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController()
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductController {
 
     ProductService service;
@@ -18,7 +18,7 @@ public class ProductController {
         this.service = productService;
     }
 
-    @GetMapping("/get/all")
+    @GetMapping("/allProducts")
     public List<Product> getAllProducts(){
         return service.getProducts();
     }
@@ -33,9 +33,14 @@ public class ProductController {
         return service.getProductByProductId(productId);
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public Product updateProduct(@RequestBody Product product) {
         return service.updateProduct(product);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteProduct(@RequestBody Product product){
+        service.deleteProduct(product.getId());
     }
 
 }

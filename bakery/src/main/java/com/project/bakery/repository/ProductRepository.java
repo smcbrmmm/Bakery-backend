@@ -26,9 +26,9 @@ public class ProductRepository {
     }
 
     public Product save(Product product) {
-        String query = "INSERT INTO products (productId, productName, price, quantity, img, productDetail, type) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO products (id , title, name, price, qty, img, description, tag) VALUES (?, ?, ?, ?, ?, ?, ?);";
         Object[] data = new Object[]
-                {product.getProductId(), product.getProductName(), product.getPrice(), product.getQuantity(), product.getImg(), product.getProductDetail(), product.getType()};
+                {product.getId(), product.getTitle(), product.getName(), product.getPrice(), product.getQty(), product.getImg(), product.getDescription(), product.getTag()};
         jdbcTemplate.update(query, data);
         return product;
     }
@@ -41,11 +41,16 @@ public class ProductRepository {
     }
 
     public Product update(Product product) {
-        String query = "UPDATE products set productName=?, price=?, quantity=?, img=?, productDetail=?, type=? where productId=?";
+        String query = "UPDATE products set title=?, price=?, qty=?, img=?, description=?, tag=? where id=?";
         Object[] data = new Object[]
-                {product.getProductName(), product.getPrice(), product.getQuantity(), product.getImg(), product.getProductDetail(), product.getType(), product.getProductId()};
+                {product.getTitle(), product.getPrice(), product.getQty(), product.getImg(), product.getDescription(), product.getTag(), product.getId()};
         jdbcTemplate.update(query, data);
         return product;
+    }
+
+    public void delete(int productId) {
+        String query = "DELETE FROM products WHERE id = " + productId;
+        jdbcTemplate.update(query);
     }
 
     class ProductMapper implements RowMapper<Product> {
@@ -53,21 +58,23 @@ public class ProductRepository {
         public Product mapRow(ResultSet resultSet, int i)
                 throws SQLException {
 
-            int productId = resultSet.getInt("productId");
-            String productName = resultSet.getString("productName");
+            int productId = resultSet.getInt("id");
+            String productName = resultSet.getString("title");
             String img = resultSet.getString("img");
             double price = resultSet.getDouble("price");
-            String type = resultSet.getString("type");
-            String productDetail = resultSet.getString("productDetail");
-            int quantity = resultSet.getInt("quantity");
+            String type = resultSet.getString("tag");
+            String productDetail = resultSet.getString("description");
+            int quantity = resultSet.getInt("qty");
+            String title = resultSet.getString("title");
             Product product = new Product();
-            product.setProductId(productId);
-            product.setProductName(productName);
+            product.setId(productId);
+            product.setTitle(productName);
             product.setImg(img);
-            product.setType(type);
-            product.setPrice(price);
-            product.setProductDetail(productDetail);
-            product.setQuantity(quantity);
+            product.setTag(type);
+            product.setPrice(String.valueOf(price));
+            product.setDescription(productDetail);
+            product.setQty(quantity);
+            product.setTitle(title);
             return product;
         }
     }

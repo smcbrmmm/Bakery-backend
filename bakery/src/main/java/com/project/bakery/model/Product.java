@@ -6,11 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Product {
-    private int productId;
-    private String productName;
-    private double price;
-    private int quantity;
-    private String type;
-    private String productDetail;
+    private int id;
+    private String description;
+    private String title;
+    private String name;
     private String img;
+    private String price;
+    private String tag;
+    private int qty;
 }
