@@ -26,9 +26,9 @@ public class ProductRepository {
     }
 
     public Product save(Product product) {
-        String query = "INSERT INTO products (id , title, name, price, qty, img, description, tag) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO products ( title , price, qty, img, description, tag) VALUES ( ?, ?, ?, ?, ?, ?);";
         Object[] data = new Object[]
-                {product.getId(), product.getTitle(), product.getName(), product.getPrice(), product.getQty(), product.getImg(), product.getDescription(), product.getTag()};
+                { product.getTitle(), product.getPrice(), product.getQty(), product.getImg(), product.getDescription(), product.getTag()};
         jdbcTemplate.update(query, data);
         return product;
     }
@@ -57,11 +57,10 @@ public class ProductRepository {
         @Override
         public Product mapRow(ResultSet resultSet, int i)
                 throws SQLException {
-
             int productId = resultSet.getInt("id");
             String productName = resultSet.getString("title");
             String img = resultSet.getString("img");
-            double price = resultSet.getDouble("price");
+            int price = resultSet.getInt("price");
             String type = resultSet.getString("tag");
             String productDetail = resultSet.getString("description");
             int quantity = resultSet.getInt("qty");
@@ -71,7 +70,7 @@ public class ProductRepository {
             product.setTitle(productName);
             product.setImg(img);
             product.setTag(type);
-            product.setPrice(String.valueOf(price));
+            product.setPrice(price);
             product.setDescription(productDetail);
             product.setQty(quantity);
             product.setTitle(title);

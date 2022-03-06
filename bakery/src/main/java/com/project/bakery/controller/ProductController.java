@@ -3,13 +3,17 @@ package com.project.bakery.controller;
 
 import com.project.bakery.model.Product;
 import com.project.bakery.service.ProductService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.Produces;
+import javax.xml.ws.Response;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin()
 @RestController()
 @RequestMapping("/api/products")
+
 public class ProductController {
 
     ProductService service;
@@ -19,6 +23,7 @@ public class ProductController {
     }
 
     @GetMapping("/allProducts")
+
     public List<Product> getAllProducts(){
         return service.getProducts();
     }

@@ -19,7 +19,6 @@ public class AddressController {
 
     @GetMapping("/address/{user_id}")
     public List<Address> getAllUsers(@PathVariable(value="user_id") String id){
-        System.out.println("samut");
         return addressService.getAddress(id);
     }
 

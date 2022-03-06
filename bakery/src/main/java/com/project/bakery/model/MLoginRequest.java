@@ -3,11 +3,7 @@ package com.project.bakery.model;
 import lombok.Data;
 
 @Data
-public class User {
-    private int id;
+public class MLoginRequest {
     private String email;
     private String password;
-    private String name;
-    private String img;
-
 }

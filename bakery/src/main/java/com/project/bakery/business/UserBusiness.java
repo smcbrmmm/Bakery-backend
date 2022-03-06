@@ -22,14 +22,14 @@ public class UserBusiness {
     }
 
 
-    public MRegisterResponse register(MRegisterRequest request) throws BaseException {
-        userService.createUser(request.getEmail(), request.getPassword(), request.getName());
-        return  userMapper.toRegisterResponse(request.getEmail(), request.getName());
-    }
-
-    public MRegisterLineResponse registerByLine(MRegisterLineRequest request) throws BaseException {
-        userService.createUserByLine(request.getEmail(), request.getTokenId(), request.getName());
-        return userMapper.toRegisterLineResponse(request.getEmail(), request.getTokenId(), request.getName());
-    }
+//    public MRegisterResponse register(MRegisterRequest request) throws BaseException {
+//        userService.createUser(request.getEmail(), request.getPassword(), request.getName());
+//        return  userMapper.toRegisterResponse(request.getEmail(), request.getName());
+//    }
+//
+//    public MRegisterLineResponse registerByLine(MRegisterLineRequest request) throws BaseException {
+//        userService.createUserByLine(request.getEmail(), request.getTokenId(), request.getName());
+//        return userMapper.toRegisterLineResponse(request.getEmail(), request.getTokenId(), request.getName());
+//    }
 
 }

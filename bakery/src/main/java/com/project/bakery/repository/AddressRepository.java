@@ -41,7 +41,6 @@ public class AddressRepository {
     }
 
     public Address update(Address address) {
-        System.out.println(address);
             String query = "UPDATE address set reciever_name=?, recierver_tel=?, postal=?, province=?, place=?, house_number=? , address=? where address_id=?";
             Object[] data = new Object[]
                     {address.getRecieverName(),address.getRecieverTel(),address.getPostal(),address.getProvince(),address.getPlace(),address.getHouseNumber(),address.getAddress(),address.getAddressId()};
