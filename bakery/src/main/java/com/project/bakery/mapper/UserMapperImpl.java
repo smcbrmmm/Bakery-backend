@@ -9,8 +9,9 @@ public class UserMapperImpl implements UserMapper{
     @Override
     public MRegisterResponse toRegisterResponse(String email, String name) {
         MRegisterResponse response = new MRegisterResponse();
-        response.setEmail(email);
-        response.setName(name);
+//        response.setEmail(email);
+//        response.setName(name);
+//        response.se
         return response;
     }
 

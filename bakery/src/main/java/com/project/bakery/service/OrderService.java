@@ -23,4 +23,7 @@ public class OrderService {
         repository.save(order);
     }
 
+    public List<Integer>  getSumPrice(String orderId) {
+        return repository.getSumPrice(orderId);
+    }
 }

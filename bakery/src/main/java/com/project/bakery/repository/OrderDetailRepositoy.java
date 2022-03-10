@@ -1,9 +1,7 @@
 package com.project.bakery.repository;
 
-import com.project.bakery.model.Address;
-import com.project.bakery.model.Order;
-import com.project.bakery.model.OrderDetail;
-import com.project.bakery.model.Product;
+import com.project.bakery.model.*;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -49,6 +48,8 @@ public class OrderDetailRepositoy {
         String queryGetOrderId = "SELECT * FROM orders WHERE user_id = " + orderDetail.getUserId()  + " ORDER BY order_id"  + " DESC LIMIT 1" ;
         List<Order> orders = jdbcTemplate.query(queryGetOrderId, new OrderDetailRepositoy.OrderMapper());
 
+        System.out.println(orders.size());
+
         String query = "INSERT INTO order_details (productId , productPrice , orderId , productQty) VALUES (?,?,?,?);";
         Object[] data = new Object[]
                 { orderDetail.getProductId() , orderDetail.getProductPrice() , orders.get(0).getOrderId() , orderDetail.getProductQty()};
@@ -63,6 +64,53 @@ public class OrderDetailRepositoy {
         Object[] dataForProduct = new Object[]{product.getQty() , product.getId()};
         jdbcTemplate.update(queryForUpdateProduct, dataForProduct);
 
+    }
+
+    public List<OrderDetailResponse> getProducts(String orderId) {
+
+        String query =
+                "SELECT a.orderId, b.id,a.productPrice , a.productQty , b.title , b.img , b.tag , c.status , c.Date\n" +
+                        "FROM order_details a\n" +
+                        "INNER JOIN products b ON a.productId=b.id \n" +
+                        "INNER JOIN orders c ON a.orderId=c.order_id\n" +
+                        "WHERE a.orderId=" + orderId;
+        List<OrderDetailResponse> response=
+                jdbcTemplate.query(query, new OrderDetailRepositoy.ResponseMapper());
+//        for (Product product: products) {
+//            System.out.println(product.getTitle());
+//        }
+
+        return response;
+    }
+
+    class ResponseMapper implements RowMapper<OrderDetailResponse> {
+        @Override
+        public OrderDetailResponse mapRow(ResultSet resultSet, int i)
+                throws SQLException {
+
+            int orderId = resultSet.getInt("orderId");
+            int id = resultSet.getInt("id");
+            int productPrice = resultSet.getInt("productPrice");
+            int productQty = resultSet.getInt("productQty");
+            String title = resultSet.getString("title");
+            String img = resultSet.getString("img");
+            String tag = resultSet.getString("tag");
+            String status = resultSet.getString("status");
+            Date date = resultSet.getDate("Date");
+
+            OrderDetailResponse response = new OrderDetailResponse();
+            response.setOrderId(orderId);
+            response.setProductId(id);
+            response.setProductPrice(productPrice);
+            response.setProductQty(productQty);
+            response.setTitle(title);
+            response.setImg(img);
+            response.setTag(tag);
+            response.setStatus(status);
+            response.setDate(date);
+
+            return response;
+        }
     }
 
     class OrderMapper implements RowMapper<Order> {
@@ -91,9 +139,13 @@ public class OrderDetailRepositoy {
                 throws SQLException {
 
             int productId = Integer.parseInt(resultSet.getString("productId"));
+            int productPrice = resultSet.getInt("productPrice");
+            int productQty = resultSet.getInt("productQty");
 
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setProductId(productId);
+            orderDetail.setProductPrice(productPrice);
+            orderDetail.setProductQty(productQty);
             return orderDetail;
         }
     }

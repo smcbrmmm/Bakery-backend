@@ -42,7 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         , "/api/products/allProducts" , "/api/address/address/{user_id}"
                 ,"/api/order/order" , "/api/address/save" , "/api/address/delete" , "/api/address/update" ,
                 "/api/products/delete" , "/api/user/login" , "/api/products/insert" , "/api/order/save" , "/api/orderDetail/save" ,
-                "/api/orderDetail/order/{orderId}"
+                "/api/orderDetail/order/{orderId}" , "/api/user/isHave/{email}" , "/api/user/loginbyline/{email}" ,
+                "/api/orderDetail/orderdetail/{orderId}" , "/api/order/getSumPrice/{orderId}"
                 ).anonymous()
                 .anyRequest().authenticated();
     }

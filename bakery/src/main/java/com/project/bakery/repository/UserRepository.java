@@ -32,19 +32,18 @@ public class UserRepository {
         return user;
     }
 
-    public void save(User user) {
-        String query = "INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?);";
+    public User save(User user) {
+        String query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);";
         Object[] data = new Object[]
-                { user.getEmail(), user.getPassword(), user.getName(), "C"};
+                { user.getEmail(), user.getPassword(), user.getName()};
         jdbcTemplate.update(query, data);
-    }
 
-//    public void saveLine(User user) {
-//        String query = "INSERT INTO users (email, tokenId, name, role) VALUES (?, ?, ?, ?);";
-//        Object[] data = new Object[]
-//                { user.getEmail(), user.getTokenId(), user.getName(), "CL"};
-//        jdbcTemplate.update(query, data);
-//    }
+        String query2 = "SELECT * FROM users WHERE email = " + "\"" + user.getEmail() + "\"";
+        User user2 =
+                jdbcTemplate.queryForObject(query2, new UserRepository.UserMapper());
+
+        return user2;
+    }
 
     public void deleteByEmail(String email) {
         String query = "DELETE FROM users WHERE email = " + email;
@@ -55,6 +54,29 @@ public class UserRepository {
         String query = "SELECT * FROM users WHERE email = " + "\"" + email + "\"" + " and password = " + "\"" + password + "\"";
         User user =
                 jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
+        return user;
+    }
+
+    public int isHave(String email) throws SQLException{
+        String query = "SELECT * FROM users WHERE email = " + "\"" + email + "\"";
+        System.out.println(query);
+        User user = new User();
+
+        List<User> list = jdbcTemplate.query(query , new UserRepository.UserMapper());
+
+        if (list.isEmpty()) {
+            return 0;
+        } else {
+            return list.get(0).getId();
+        }
+    }
+
+    public User loginByLine(String email) {
+        String query = "SELECT * FROM users WHERE email = " + "\"" + email + "\"";
+        System.out.println(query);
+        User user =
+                jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
+        System.out.println(user);
         return user;
     }
 

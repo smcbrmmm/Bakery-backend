@@ -27,6 +27,7 @@ public class ProductRepository {
 
     public Product save(Product product) {
         String query = "INSERT INTO products ( title , price, qty, img, description, tag) VALUES ( ?, ?, ?, ?, ?, ?);";
+        System.out.println(product.getImg().length());
         Object[] data = new Object[]
                 { product.getTitle(), product.getPrice(), product.getQty(), product.getImg(), product.getDescription(), product.getTag()};
         jdbcTemplate.update(query, data);

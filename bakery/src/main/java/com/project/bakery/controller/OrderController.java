@@ -27,4 +27,10 @@ public class OrderController {
         orderService.save(order);
     }
 
+    @GetMapping("/getSumPrice/{orderId}")
+    public List<Integer>  getSumPrice(@PathVariable("orderId") String orderId ){
+        return orderService.getSumPrice(orderId);
+    }
+
+
 }

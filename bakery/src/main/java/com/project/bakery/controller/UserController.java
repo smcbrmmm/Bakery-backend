@@ -7,6 +7,8 @@ import com.project.bakery.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/user")
@@ -36,12 +38,35 @@ public class UserController {
         return response;
     }
 
-//    @PostMapping
-//    @RequestMapping("/register")
-//    public ResponseEntity<MRegisterResponse> register(@RequestBody MRegisterRequest request) throws BaseException {
-//        MRegisterResponse response = userBusiness.register(request);
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping("/isHave/{email}")
+    public int isHave(@PathVariable("email") String email) throws SQLException {
+        return userService.isHave(email);
+    }
+
+    @GetMapping("/loginbyline/{email}")
+    public MLoginResponse loginByLine(@PathVariable("email") String email){
+        System.out.println(email);
+        User user = userService.loginByLine(email);
+        MLoginResponse response = new MLoginResponse();
+        response.setUser(user);
+        response.setStatus("ok");
+        response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+        response.setMessage("Logged in");
+        return response;
+    }
+
+
+    @PostMapping
+    @RequestMapping("/register")
+    public MRegisterResponse register(@RequestBody MRegisterRequest request) throws BaseException {
+        User user = userService.createUser(request.getEmail(),request.getPassword(),request.getName());
+        MRegisterResponse response = new MRegisterResponse();
+        response.setUser(user);
+        response.setStatus("ok");
+        response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+        response.setMessage("Logged in");
+        return response;
+    }
 //
 //    @PostMapping
 //    @RequestMapping("/register/line")

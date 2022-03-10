@@ -7,6 +7,8 @@ import com.project.bakery.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +32,11 @@ public class UserService {
         return repository.login(email, password);
     }
 
-    public void createUser(String email, String password, String name) throws BaseException {
+    public User loginByLine(String email) {
+        return repository.loginByLine(email);
+    }
+
+    public User createUser(String email, String password, String name) throws BaseException {
         if (Objects.isNull(email)) {
             throw UserException.createEmailNull();
         }
@@ -48,9 +54,16 @@ public class UserService {
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
+        user.setPassword(password);
         user.setName(name);
-        repository.save(user);
+        return repository.save(user);
     }
+
+    public int isHave(String email) throws SQLException {
+        return repository.isHave(email);
+    }
+
+
 
 //    public void createUserByLine(String email, String tokenId, String name) throws BaseException {
 //        if (Objects.isNull(email)) {

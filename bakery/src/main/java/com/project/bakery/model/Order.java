@@ -11,4 +11,5 @@ public class Order {
     private int addressId;
     private String status;
     private Date date;
+    private int sumPrice;
 }
