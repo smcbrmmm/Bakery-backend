@@ -32,5 +32,15 @@ public class OrderController {
         return orderService.getSumPrice(orderId);
     }
 
+    @GetMapping("/getOrderByDate/{date}")
+    public List<Order> getOrderByDate(@PathVariable("date") String date){
+        return orderService.getOrderByDate(date);
+    }
+
+    @PostMapping("/cancel/{orderId}")
+    public void cancelOrder(@PathVariable("orderId") String orderId){
+        orderService.cancel(orderId);
+    }
+
 
 }

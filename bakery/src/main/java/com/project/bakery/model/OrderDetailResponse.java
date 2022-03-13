@@ -15,7 +15,7 @@ public class OrderDetailResponse {
     private String img;
     private String tag;
     private String status;
-    private Date date;
+    private String date;
 
 
 }

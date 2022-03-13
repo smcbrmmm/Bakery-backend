@@ -2,13 +2,10 @@ package com.project.bakery.model;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class Payment {
-    private int paymentId;
+public class UploadSlipRequest {
+
     private int orderId;
     private int userId;
     private String paymentSlip;
-
 }

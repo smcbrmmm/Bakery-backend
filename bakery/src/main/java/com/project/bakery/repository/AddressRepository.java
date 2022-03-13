@@ -48,6 +48,12 @@ public class AddressRepository {
             return address;
         }
 
+    public Address getOrderAddress(String addressId) {
+        String query = "SELECT * FROM address where address_id = " + addressId;
+        Address address = jdbcTemplate.queryForObject(query , new AddressRepository.AddressMapper());
+        return address;
+    }
+
     class AddressMapper implements RowMapper<Address> {
 
         @Override

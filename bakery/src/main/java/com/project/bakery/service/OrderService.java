@@ -26,4 +26,12 @@ public class OrderService {
     public List<Integer>  getSumPrice(String orderId) {
         return repository.getSumPrice(orderId);
     }
+
+    public void cancel(String orderId) {
+        repository.cancel(orderId);
+    }
+
+    public List<Order> getOrderByDate(String date) {
+        return repository.getOrderByDate(date);
+    }
 }

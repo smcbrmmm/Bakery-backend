@@ -59,7 +59,7 @@ public class UserRepository {
 
     public int isHave(String email) throws SQLException{
         String query = "SELECT * FROM users WHERE email = " + "\"" + email + "\"";
-        System.out.println(query);
+
         User user = new User();
 
         List<User> list = jdbcTemplate.query(query , new UserRepository.UserMapper());
@@ -73,10 +73,8 @@ public class UserRepository {
 
     public User loginByLine(String email) {
         String query = "SELECT * FROM users WHERE email = " + "\"" + email + "\"";
-        System.out.println(query);
         User user =
                 jdbcTemplate.queryForObject(query, new UserRepository.UserMapper());
-        System.out.println(user);
         return user;
     }
 
@@ -91,14 +89,14 @@ public class UserRepository {
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
             String name = resultSet.getString("name");
-            String img = resultSet.getString("img");
+            String role = resultSet.getString("role");
 
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setName(name);
             user.setId(id);
-            user.setImg(img);
+            user.setRole(role);
             return user;
         }
     }

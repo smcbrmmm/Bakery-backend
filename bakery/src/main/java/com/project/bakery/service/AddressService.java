@@ -32,4 +32,7 @@ public class AddressService {
         return repository.update(address);
     }
 
+    public Address getOrderAddress(String addressId) {
+        return repository.getOrderAddress(addressId);
+    }
 }

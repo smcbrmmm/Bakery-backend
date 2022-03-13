@@ -43,21 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ,"/api/order/order" , "/api/address/save" , "/api/address/delete" , "/api/address/update" ,
                 "/api/products/delete" , "/api/user/login" , "/api/products/insert" , "/api/order/save" , "/api/orderDetail/save" ,
                 "/api/orderDetail/order/{orderId}" , "/api/user/isHave/{email}" , "/api/user/loginbyline/{email}" ,
-                "/api/orderDetail/orderdetail/{orderId}" , "/api/order/getSumPrice/{orderId}"
+                "/api/orderDetail/orderdetail/{orderId}" , "/api/order/getSumPrice/{orderId}" , "/api/cart/inCart/{userId}" ,
+                "/api/cart/inCart/insert" , "/api/cart/inCart/deleteItemInCart" , "/api/cart/inCart/deleteAllItem" ,
+                "/api/address/orderAddress/{addressId}" , "/api/order/cancel/{orderId}" , "/api/payment/upload" ,
+                "/api/payment/getPayment/{orderId}" , "/api/order/getOrderByDate/{date}"
                 ).anonymous()
                 .anyRequest().authenticated();
     }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-
 
 }

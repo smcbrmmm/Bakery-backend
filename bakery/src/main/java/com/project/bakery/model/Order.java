@@ -10,6 +10,7 @@ public class Order {
     private int userId;
     private int addressId;
     private String status;
-    private Date date;
+    private String date;
     private int sumPrice;
+    private String hasPayment;
 }

@@ -96,7 +96,7 @@ public class OrderDetailRepositoy {
             String img = resultSet.getString("img");
             String tag = resultSet.getString("tag");
             String status = resultSet.getString("status");
-            Date date = resultSet.getDate("Date");
+            String date = resultSet.getString("Date");
 
             OrderDetailResponse response = new OrderDetailResponse();
             response.setOrderId(orderId);

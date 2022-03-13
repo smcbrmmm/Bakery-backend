@@ -22,6 +22,11 @@ public class AddressController {
         return addressService.getAddress(id);
     }
 
+    @GetMapping("/orderAddress/{addressId}")
+    public Address getOrderAddress(@PathVariable("addressId") String addressId){
+        return addressService.getOrderAddress(addressId);
+    }
+
     @PostMapping("/save")
     public void saveAddress(@RequestBody Address address){
         addressService.saveAddress(address);
