@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // TODO:
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -46,7 +45,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/orderDetail/orderdetail/{orderId}" , "/api/order/getSumPrice/{orderId}" , "/api/cart/inCart/{userId}" ,
                 "/api/cart/inCart/insert" , "/api/cart/inCart/deleteItemInCart" , "/api/cart/inCart/deleteAllItem" ,
                 "/api/address/orderAddress/{addressId}" , "/api/order/cancel/{orderId}" , "/api/payment/upload" ,
-                "/api/payment/getPayment/{orderId}" , "/api/order/getOrderByDate/{date}"
+                "/api/payment/getPayment/{orderId}" , "/api/order/getOrderByDate/{date}" , "/api/products/getProductQty/{productId}" ,
+                "/api/order/getOrderForReport/{dateTo}/{dateFrom}" , "/api/order/getTotalPrice/{dateTo}/{dateFrom}" ,
+                "/api/products/update" , "/api/order/update/status/confirm/{orderId}" , "/api/order/update/status/shipping/{orderId}/{trackingNo}",
+                "/api/order/update/status/success/{orderId}" , "/api/order/getOrderByDateAndOrderId/{date}/{orderId}"
                 ).anonymous()
                 .anyRequest().authenticated();
     }

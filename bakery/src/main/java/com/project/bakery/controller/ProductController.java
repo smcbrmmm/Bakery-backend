@@ -10,7 +10,7 @@ import javax.enterprise.inject.Produces;
 import javax.xml.ws.Response;
 import java.util.List;
 
-@CrossOrigin()
+@CrossOrigin("https://bakery-frontend-react.vercel.app/")
 @RestController()
 @RequestMapping("/api/products")
 
@@ -39,12 +39,18 @@ public class ProductController {
 
     @PostMapping("/update")
     public Product updateProduct(@RequestBody Product product) {
+        System.out.println(product);
         return service.updateProduct(product);
     }
 
     @DeleteMapping("/delete")
     public void deleteProduct(@RequestBody Product product){
         service.deleteProduct(product.getId());
+    }
+
+    @GetMapping("/getProductQty/{productId}")
+    public int getProductQty(@PathVariable("productId") int productId){
+        return service.getProductQty(productId);
     }
 
 }

@@ -34,4 +34,8 @@ public class ProductService {
     public void deleteProduct(int productId) {
         repository.delete(productId);
     }
+
+    public int getProductQty(int productId) {
+        return repository.getProductQty(productId);
+    }
 }

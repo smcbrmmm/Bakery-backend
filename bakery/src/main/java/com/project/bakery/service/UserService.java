@@ -36,13 +36,9 @@ public class UserService {
         return repository.loginByLine(email);
     }
 
-    public User createUser(String email, String password, String name) throws BaseException {
+    public User createUser(String email, String name , String accessToken) throws BaseException {
         if (Objects.isNull(email)) {
             throw UserException.createEmailNull();
-        }
-
-        if (Objects.isNull(password)) {
-            throw UserException.createNameNull();
         }
 
         if (Objects.isNull(name)) {
@@ -53,9 +49,8 @@ public class UserService {
 //        }
         User user = new User();
         user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setPassword(password);
         user.setName(name);
+        user.setAccessToken(accessToken);
         return repository.save(user);
     }
 

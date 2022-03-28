@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("https://bakery-frontend-react.vercel.app/")
 @RestController()
 @RequestMapping("/api/address")
 public class AddressController {

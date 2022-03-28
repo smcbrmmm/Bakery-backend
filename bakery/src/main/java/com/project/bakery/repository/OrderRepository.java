@@ -24,7 +24,7 @@ public class OrderRepository {
 
     public List<Order> findAll() {
         String query = "( SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date,\n" +
-                "SUM(order_details.productPrice * order_details.productQty) as sum " + ", payments.paymentSlip as payment\n" +
+                "SUM(order_details.productPrice * order_details.productQty) as sum " + ", orders.trackingNo ,payments.paymentSlip as payment\n" +
                 "FROM order_details\n" +
                 "INNER JOIN products ON order_details.productId=products.id\n" +
                 "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
@@ -79,22 +79,35 @@ public class OrderRepository {
         String query2 = "SELECT * FROM order_details where orderId =" +  orderId;
         List<OrderDetail> orderDetails =
                 jdbcTemplate.query(query2, new OrderRepository.OrderDetailMapper());
-
         for(int i=0 ; i<orderDetails.size() ;i++){
             String query = "UPDATE products set qty= qty + " + orderDetails.get(i).getProductQty()  + " where id=" + orderDetails.get(i).getProductId();
-
             jdbcTemplate.update(query);
-
         }
-
         String query = "UPDATE orders set status=\"Order Canceled\" where order_id=" + orderId;
+        jdbcTemplate.update(query);
+    }
+
+    public void updateStatusConfirm(String orderId) {
+        String query = "UPDATE orders set status=\"Confirm , Waiting for shipment\" where order_id=" + orderId;
+        jdbcTemplate.update(query);
+    }
+
+    public void updateStatusShipping(String orderId, String trackingNo) {
+        String query = "UPDATE orders set status=?, TrackingNo =? where order_id=" + orderId;
+        Object[] data = new Object[]{"Shipping" , trackingNo};
+        jdbcTemplate.update(query, data);
+//        jdbcTemplate.update(query);
+    }
+
+    public void updateStatusSuccess(String orderId) {
+        String query = "UPDATE orders set status=\"Success\" where order_id=" + orderId;
         jdbcTemplate.update(query);
     }
 
     public List<Order> getOrderByDate(String date) {
         String query = "select * FROM orders WHERE date LIKE " + "'" + date + "%'";
         String query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
-                "SUM(order_details.productPrice * order_details.productQty) as sum, payments.paymentSlip as payment\n" +
+                "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
                 "FROM order_details\n" +
                 "INNER JOIN products ON order_details.productId=products.id\n" +
                 "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
@@ -106,6 +119,116 @@ public class OrderRepository {
                 jdbcTemplate.query(query2, new OrderRepository.OrderMapper());
         return orders;
     }
+
+    public List<Order> getOrderByDateAndOrderId(String date , String orderId) {
+        String query = "select * FROM orders WHERE date LIKE " + "'" + date + "%'";
+        System.out.println(orderId);
+        String query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
+                "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
+                "FROM order_details\n" +
+                "INNER JOIN products ON order_details.productId=products.id\n" +
+                "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
+                "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
+                "WHERE orders.order_id =" + orderId+
+                " GROUP BY order_details.orderId";
+        System.out.println(query2);
+        List<Order> orders =
+                jdbcTemplate.query(query2, new OrderRepository.OrderMapper());
+        return orders;
+    }
+
+    public List<Order> getOrderForReport(String dateTo , String dateFrom) {
+//        String query = "select * FROM orders WHERE date LIKE " + "'" + date + "%'";
+//        System.out.println(dateTo + " " + dateFrom);
+        String query2 = "";
+        String[] df = dateFrom.split("-");
+        df[2] = String.valueOf(Integer.parseInt(df[2])+1);
+        dateFrom = "";
+        for(int i=0; i < df.length ;i++){
+            if(i==2){
+                dateFrom += df[i];
+            }else{
+                dateFrom += df[i] + "-";
+            }
+        }
+//        System.out.println(dateFrom);
+        if(dateFrom.equals(dateTo)){
+             query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
+                    "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
+                    "FROM order_details\n" +
+                    "INNER JOIN products ON order_details.productId=products.id\n" +
+                    "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
+                    "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
+                    "WHERE orders.Date LIKE " + "'" + dateTo + "%'" +
+                    "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment'" +
+                    "or orders.status ='Success')" +
+                    " GROUP BY order_details.orderId";
+        }else {
+             query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
+                    "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
+                    "FROM order_details\n" +
+                    "INNER JOIN products ON order_details.productId=products.id\n" +
+                    "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
+                    "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
+                    "WHERE orders.Date BETWEEN " + "'" + dateTo + "%' and " + "'" + dateFrom + "%'" +
+                    "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment'" +
+                    "or orders.status ='Success')" +
+                    " GROUP BY order_details.orderId";
+        }
+        System.out.println(query2);
+        List<Order> orders =
+                jdbcTemplate.query(query2, new OrderRepository.OrderMapper());
+
+        return orders;
+    }
+
+    public int getTotalPrice(String dateTo , String dateFrom){
+        String query2 = "";
+        String[] df = dateFrom.split("-");
+        df[2] = String.valueOf(Integer.parseInt(df[2])+1);
+        dateFrom = "";
+        for(int i=0; i < df.length ;i++){
+            if(i==2){
+                dateFrom += df[i];
+            }else{
+                dateFrom += df[i] + "-";
+            }
+        }
+        if(dateFrom.equals(dateTo)){
+            query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
+                    "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
+                    "FROM order_details\n" +
+                    "INNER JOIN products ON order_details.productId=products.id\n" +
+                    "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
+                    "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
+                    "WHERE orders.Date LIKE " + "'" + dateTo + "%'" +
+                    "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment' " +
+                    "or orders.status ='Success')" +
+                    " GROUP BY order_details.orderId";
+        }else {
+            query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
+                    "SUM(order_details.productPrice * order_details.productQty) as sum, orders.trackingNo , payments.paymentSlip as payment\n" +
+                    "FROM order_details\n" +
+                    "INNER JOIN products ON order_details.productId=products.id\n" +
+                    "INNER JOIN orders ON orders.order_id=order_details.orderId\n" +
+                    "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
+                    "WHERE orders.Date BETWEEN " + "'" + dateTo + "%' and " + "'" + dateFrom + "%'" +
+                    "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment' " +
+                    "or orders.status ='Success')" +
+                    " GROUP BY order_details.orderId";
+        }
+//        System.out.println(query2);
+        List<Order> orders =
+                jdbcTemplate.query(query2, new OrderRepository.OrderMapper());
+        int total = 0;
+
+        for(int i=0;i<orders.size();i++){
+            total += orders.get(i).getSumPrice();
+        }
+
+        return total;
+    }
+
 
     class OrderMapperForOrderId implements RowMapper<Order> {
         @Override
@@ -154,6 +277,7 @@ public class OrderRepository {
             int sumPrice = resultSet.getInt("sum");
             String payment = resultSet.getString("payment");
             String date = resultSet.getString("date");
+            String trackingNo = resultSet.getString("trackingNo");
 
             Order order = new Order();
             order.setOrderId(orderId);
@@ -163,6 +287,7 @@ public class OrderRepository {
             order.setSumPrice(sumPrice);
             order.setHasPayment(payment);
             order.setDate(date);
+            order.setTrackingNo(trackingNo);
 
             return order;
         }

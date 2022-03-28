@@ -33,9 +33,9 @@ public class UserRepository {
     }
 
     public User save(User user) {
-        String query = "INSERT INTO users (email, password, name) VALUES (?, ?, ?);";
+        String query = "INSERT INTO users (email, password, name , accessToken) VALUES (?, ?, ? , ?);";
         Object[] data = new Object[]
-                { user.getEmail(), user.getPassword(), user.getName()};
+                { user.getEmail() , "password" , user.getName() , user.getAccessToken()};
         jdbcTemplate.update(query, data);
 
         String query2 = "SELECT * FROM users WHERE email = " + "\"" + user.getEmail() + "\"";
@@ -90,6 +90,7 @@ public class UserRepository {
             String password = resultSet.getString("password");
             String name = resultSet.getString("name");
             String role = resultSet.getString("role");
+            String accessToken = resultSet.getString("accessToken");
 
             User user = new User();
             user.setEmail(email);
@@ -97,6 +98,7 @@ public class UserRepository {
             user.setName(name);
             user.setId(id);
             user.setRole(role);
+            user.setAccessToken(accessToken);
             return user;
         }
     }

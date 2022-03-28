@@ -13,4 +13,5 @@ public class Order {
     private String date;
     private int sumPrice;
     private String hasPayment;
+    private String trackingNo;
 }

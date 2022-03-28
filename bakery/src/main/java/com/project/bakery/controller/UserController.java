@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-@CrossOrigin
+@CrossOrigin("https://bakery-frontend-react.vercel.app/")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -45,25 +45,34 @@ public class UserController {
 
     @GetMapping("/loginbyline/{email}")
     public MLoginResponse loginByLine(@PathVariable("email") String email){
-        System.out.println(email);
-        User user = userService.loginByLine(email);
         MLoginResponse response = new MLoginResponse();
-        response.setUser(user);
-        response.setStatus("ok");
-        response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
-        response.setMessage("Logged in");
-        return response;
+        if(email.equals("undefined")){
+            response.setStatus("no ok");
+            return response;
+        }else{
+            System.out.println(email);
+            User user = userService.loginByLine(email);
+            response.setUser(user);
+            response.setStatus("ok");
+            response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+            response.setMessage("Logged in");
+            return response;
+        }
+
+
     }
 
 
     @PostMapping
     @RequestMapping("/register")
     public MRegisterResponse register(@RequestBody MRegisterRequest request) throws BaseException {
-        User user = userService.createUser(request.getEmail(),request.getPassword(),request.getName());
+
+        User user = userService.createUser(request.getEmail(),request.getName() , request.getAccessToken());
         MRegisterResponse response = new MRegisterResponse();
+        System.out.println(user);
         response.setUser(user);
         response.setStatus("ok");
-        response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+        response.setAccessToken(user.getAccessToken());
         response.setMessage("Logged in");
         return response;
     }

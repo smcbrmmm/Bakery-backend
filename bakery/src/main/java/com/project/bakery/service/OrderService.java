@@ -34,4 +34,30 @@ public class OrderService {
     public List<Order> getOrderByDate(String date) {
         return repository.getOrderByDate(date);
     }
+
+    public List<Order> getOrderByDateAndOrderId(String date , String orderId) {
+        return repository.getOrderByDateAndOrderId(date , orderId);
+    }
+
+    public int getTotalPrice(String dateTo , String dateFrom) {
+        return repository.getTotalPrice(dateTo,dateFrom);
+    }
+
+    public List<Order> getOrderForReport(String dateTo , String dateFrom) {
+        return repository.getOrderForReport(dateTo,dateFrom);
+    }
+
+    public void updateStatusConfirm(String orderId) {
+        repository.updateStatusConfirm(orderId);
+    }
+
+    public void updateStatusShipping(String orderId , String trackingNo) {
+        repository.updateStatusShipping(orderId , trackingNo);
+    }
+
+    public void updateStatusSuccess(String orderId) {
+        repository.updateStatusSuccess(orderId);
+    }
+
+
 }

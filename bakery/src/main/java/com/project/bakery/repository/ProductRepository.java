@@ -54,6 +54,12 @@ public class ProductRepository {
         jdbcTemplate.update(query);
     }
 
+    public int getProductQty(int productId) {
+        String query = "Select * from products where id = " + productId;
+        Product product = jdbcTemplate.queryForObject(query , new ProductRepository.ProductMapper());
+        return product.getQty();
+    }
+
     class ProductMapper implements RowMapper<Product> {
         @Override
         public Product mapRow(ResultSet resultSet, int i)
