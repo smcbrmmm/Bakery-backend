@@ -26,7 +26,7 @@ public class PaymentRepository {
                 {request.getPaymentSlip(),request.getOrderId()};
         jdbcTemplate.update(query, data);
 
-        String query2 = "UPDATE orders set status=\"Waiting for Confirmation\" where order_id=?";
+        String query2 = "UPDATE orders set status=\"Waiting for payment approval\" where order_id=?";
         Object[] data2 = new Object[]
                 {request.getOrderId()};
         jdbcTemplate.update(query2, data2);

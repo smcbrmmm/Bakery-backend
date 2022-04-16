@@ -10,7 +10,8 @@ import javax.enterprise.inject.Produces;
 import javax.xml.ws.Response;
 import java.util.List;
 
-@CrossOrigin("https://bakery-frontend-react.vercel.app/")
+//@CrossOrigin("https://bakery-frontend-react.vercel.app/")
+@CrossOrigin
 @RestController()
 @RequestMapping("/api/products")
 
@@ -39,7 +40,6 @@ public class ProductController {
 
     @PostMapping("/update")
     public Product updateProduct(@RequestBody Product product) {
-        System.out.println(product);
         return service.updateProduct(product);
     }
 

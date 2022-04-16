@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-@CrossOrigin("https://bakery-frontend-react.vercel.app/")
+//@CrossOrigin("https://bakery-frontend-react.vercel.app/")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -33,7 +34,7 @@ public class UserController {
         MLoginResponse response = new MLoginResponse();
         response.setUser(user);
         response.setStatus("ok");
-        response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+        response.setAccessToken(user.getAccessToken());
         response.setMessage("Logged in");
         return response;
     }
@@ -48,20 +49,16 @@ public class UserController {
         MLoginResponse response = new MLoginResponse();
         if(email.equals("undefined")){
             response.setStatus("no ok");
-            return response;
         }else{
-            System.out.println(email);
             User user = userService.loginByLine(email);
             response.setUser(user);
             response.setStatus("ok");
-            response.setAccessToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imthcm4ueW9uZ0BtZWNhbGxhcGkuY29tIiwiaWF0IjoxNjQzMjc2NzA0fQ.ANO1jmwgM4auvu3EkEZ-9hNibWDIHkjlgKmm6UGT06Q");
+            response.setAccessToken(user.getAccessToken());
             response.setMessage("Logged in");
-            return response;
         }
-
+        return response;
 
     }
-
 
     @PostMapping
     @RequestMapping("/register")
@@ -76,11 +73,5 @@ public class UserController {
         response.setMessage("Logged in");
         return response;
     }
-//
-//    @PostMapping
-//    @RequestMapping("/register/line")
-//    public ResponseEntity<MRegisterLineResponse> registerByLine(@RequestBody MRegisterLineRequest request) throws BaseException {
-//        MRegisterLineResponse response = userBusiness.registerByLine(request);
-//        return ResponseEntity.ok(response);
-//    }
+
 }

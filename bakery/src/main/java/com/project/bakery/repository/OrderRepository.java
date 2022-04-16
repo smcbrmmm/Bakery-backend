@@ -83,7 +83,7 @@ public class OrderRepository {
             String query = "UPDATE products set qty= qty + " + orderDetails.get(i).getProductQty()  + " where id=" + orderDetails.get(i).getProductId();
             jdbcTemplate.update(query);
         }
-        String query = "UPDATE orders set status=\"Order Canceled\" where order_id=" + orderId;
+        String query = "UPDATE orders set status=\"Cancelled\" where order_id=" + orderId;
         jdbcTemplate.update(query);
     }
 
@@ -100,7 +100,7 @@ public class OrderRepository {
     }
 
     public void updateStatusSuccess(String orderId) {
-        String query = "UPDATE orders set status=\"Success\" where order_id=" + orderId;
+        String query = "UPDATE orders set status=\"Completed\" where order_id=" + orderId;
         jdbcTemplate.update(query);
     }
 
@@ -161,7 +161,7 @@ public class OrderRepository {
                     "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
                     "WHERE orders.Date LIKE " + "'" + dateTo + "%'" +
                     "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment'" +
-                    "or orders.status ='Success')" +
+                    "or orders.status ='Completed')" +
                     " GROUP BY order_details.orderId";
         }else {
              query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
@@ -172,7 +172,7 @@ public class OrderRepository {
                     "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
                     "WHERE orders.Date BETWEEN " + "'" + dateTo + "%' and " + "'" + dateFrom + "%'" +
                     "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment'" +
-                    "or orders.status ='Success')" +
+                    "or orders.status ='Completed')" +
                     " GROUP BY order_details.orderId";
         }
         System.out.println(query2);
@@ -203,7 +203,7 @@ public class OrderRepository {
                     "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
                     "WHERE orders.Date LIKE " + "'" + dateTo + "%'" +
                     "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment' " +
-                    "or orders.status ='Success')" +
+                    "or orders.status ='Completed')" +
                     " GROUP BY order_details.orderId";
         }else {
             query2 = "SELECT orders.order_id, orders.date ,orders.user_id , orders.address_id , orders.status , orders.Date ,\n" +
@@ -214,7 +214,7 @@ public class OrderRepository {
                     "INNER JOIN payments ON orders.order_id=payments.orderId\n" +
                     "WHERE orders.Date BETWEEN " + "'" + dateTo + "%' and " + "'" + dateFrom + "%'" +
                     "and (orders.status = 'Shipping' or orders.status ='Confirm , Waiting for shipment' " +
-                    "or orders.status ='Success')" +
+                    "or orders.status ='Completed')" +
                     " GROUP BY order_details.orderId";
         }
 //        System.out.println(query2);
